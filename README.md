@@ -8,3 +8,5 @@ It is a console-based program where you can enter a name, phone number, email an
 - Search a contact by name
 - Save contacts to a file
 - Delete a contact
+
+
