@@ -19,7 +19,7 @@ public class Contact{
         return email;
     }
 
-   // @Override 
+   @Override 
     public String toString(){
         return "Your name is: "+name+ "\nPhone: "+phone+"\nMail: "+email;
     }
