@@ -9,7 +9,8 @@ public class Main{
         while(true){
             System.out.println("1. Add");
             System.out.println("2. List");
-            System.out.println("3. Exit");
+            System.out.println("3. Search");
+            System.out.println("4. Exit");
 
             System.out.print("Input: ");
             int m = sc.nextInt();
@@ -31,16 +32,40 @@ public class Main{
             }
             else if(m==2){
                 System.out.println("Input: "+m);
+               
                 int i=1;
-                for(Contact x:contacts){
-                    System.out.println("Contact no: "+i);
-                    System.out.println(x);
-                    i++;
-                    System.out.println("---------------");
-                }
-                System.out.println("End of the List");
+                if(!contacts.isEmpty()){
+                    for(Contact x:contacts){
+                        System.out.println("Contact no: "+i);
+                        System.out.println(x);
+                        i++;
+                        System.out.println("---------------");
+                    }
+                }else
+                System.out.println("No contacts found");
             }
             else if(m==3){
+                boolean found=false;
+                System.out.print("Enter name to search: ");
+                String searchName= sc.nextLine();
+                if(!contacts.isEmpty()){
+                    for(Contact x: contacts){
+                        if(x.getName().equalsIgnoreCase(searchName)){
+                            System.out.println("--------------------");
+                            System.out.println(x);
+                            System.out.println("--------------------");
+                            found=true;
+                            break;
+                        }
+                    }
+                }else{
+                    System.out.println("List is empty");
+                }
+                if(!contacts.isEmpty() && !found){//revision
+                    System.out.println("Contact not found");
+                }
+            }
+            else if(m==4){
                 System.out.println("Goodbye");
                 break;
             }else{
