@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -88,6 +91,7 @@ public class Main {
             } 
             //exit oprion
             else if (choice == 5) {
+                saveToFile(contacts);
                 System.out.println("Goodbye");
                 break;
             } else {
@@ -96,5 +100,20 @@ public class Main {
 
         }
 
+    }
+    //Save TO FIle
+    /*  - FileWriter → নির্দিষ্ট location-এ file তৈরি করে (না থাকলে) এবং লেখার connection তৈরি করে।
+        - PrintWriter → সেই connection ব্যবহার করে file-এর মধ্যে data লেখে।
+        অর্থাৎ, একই file, একই connection — শুধু কাজের সুবিধার জন্য দুটো class। */
+    //------------------------------
+    public static void saveToFile(ArrayList<Contact>contacts){
+        try(FileWriter fw = new FileWriter("contacts.txt");
+        PrintWriter pw = new PrintWriter(fw)){
+            for(Contact c: contacts){
+                pw.println(c.getName()+","+c.getPhone()+","+c.getEmail());
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
