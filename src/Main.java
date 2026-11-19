@@ -3,11 +3,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Contact> contacts = new ArrayList<>();
+        leadFromFile(contacts);
 
         while (true) {
             System.out.println("1. Add");
@@ -113,6 +116,25 @@ public class Main {
                 pw.println(c.getName()+","+c.getPhone()+","+c.getEmail());
             }
         }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    //Load from file
+    public static void leadFromFile(ArrayList<Contact>contacts){
+        File file = new File("contacts.txt");
+        if(!file.exists()){
+            return ;
+        }
+        try{
+            Scanner sc = new Scanner(file);
+            while(sc.hasNextLine()){
+                String line = sc.nextLine();
+                String[] parts = line.split(",");
+                Contact c = new Contact(parts[0], parts[1], parts[2]);
+                contacts.add(c);
+            }
+            sc.close();
+        }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
         }
     }
