@@ -1,6 +1,7 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
@@ -33,8 +34,12 @@ public class Main {
                 System.out.print("Enter email: ");
                 String email = sc.nextLine();
 
-                contacts.add(new Contact(name, phone, email));
-                System.out.println("New Contact added successfully");
+                if(isDuplicate(contacts, phone)){
+                    System.out.println("Phone number already exists!");
+                }else{
+                    contacts.add(new Contact(name, phone, email));
+                    System.out.println("New Contact added successfully");
+                }
             } 
             //List of the contact
             else if (choice == 2) {
@@ -137,5 +142,14 @@ public class Main {
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
+    //Duplicate ache kina check kora
+    public static boolean isDuplicate(ArrayList<Contact>contacts, String phone){
+        for(Contact c: contacts){
+            if(c.getPhone().equals(phone)){
+                return true;
+            }
+        }
+        return false;
     }
 }
