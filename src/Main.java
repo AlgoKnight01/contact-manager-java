@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Contact> contacts = new ArrayList<>();
-        leadFromFile(contacts);
+        loadFromFile(contacts);
 
         while (true) {
             System.out.println("1. Add");
@@ -20,9 +20,20 @@ public class Main {
             System.out.println("4. Delete");
             System.out.println("5. Exit");
 
-            System.out.print("Input: ");
-            int choice = sc.nextInt();
-            sc.nextLine();
+            //Input validation
+            int choice;
+            while(true){
+                System.out.print("Input your Choice: ");
+                String input = sc.nextLine();
+
+                try{
+                    choice = Integer.parseInt(input);
+                    break;
+                }catch(NumberFormatException e){
+                    System.out.println("Invalid input , try again");
+                }
+            }
+
             //Add Contacts;
             if (choice == 1) {
                 System.out.print("Enter name: ");
@@ -83,15 +94,26 @@ public class Main {
                     for (int j = 0; j < contacts.size(); j++) {
                         System.out.println("Contact no: " + (j + 1)+". "+contacts.get(j).getName());
                     }
-                    System.out.print("Input: ");
-                    int del= sc.nextInt();
-                    if(del>=1 && del<=contacts.size()){
-                        contacts.remove(del-1);
-                        System.out.println("Deleted");
-                    }else{
-                        System.out.println("Invalid Input");
+                    int del;
+                    while(true){
+                        System.out.print("Input: ");
+                        String input = sc.nextLine();
+
+                        try{
+                            del = Integer.parseInt(input);
+                            if(del>=1 && del<=contacts.size()){
+                                contacts.remove(del-1);
+                                System.out.println("Deleted Successfuly!");
+                                break;
+                            }
+                            else {
+                                System.out.println("Invalid number, try again");
+                            }
+
+                        }catch(NumberFormatException e){
+                            System.out.println("Inavlid iput, try again");
+                        }
                     }
-                    
                 }else{
                     System.out.println("There is no contact");
                 }
@@ -125,7 +147,7 @@ public class Main {
         }
     }
     //Load from file
-    public static void leadFromFile(ArrayList<Contact>contacts){
+    public static void loadFromFile(ArrayList<Contact>contacts){
         File file = new File("contacts.txt");
         if(!file.exists()){
             return ;
@@ -134,7 +156,12 @@ public class Main {
             Scanner sc = new Scanner(file);
             while(sc.hasNextLine()){
                 String line = sc.nextLine();
-                String[] parts = line.split(",");
+                String[] parts = line.split(",",-1);
+                if(parts.length != 3 || parts[0].isBlank()
+                    || parts[1].isBlank() || parts[2].isBlank()){
+                    System.out.println("Skipping invalid line: "+ line);
+                    continue;
+                }
                 Contact c = new Contact(parts[0], parts[1], parts[2]);
                 contacts.add(c);
             }
